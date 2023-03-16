@@ -27,7 +27,7 @@ const Users = () => {
         <>
             <button onClick={() => handleSorting()}>{isSort ? 'Descending' : 'Ascending'}</button>
             <button onClick={() => refresh()}>Refresh</button>
-            {!loading ? (
+            {loading ? <p>Loading</p> : (
                 <table>
                     <thead>
                         <tr>
@@ -46,7 +46,7 @@ const Users = () => {
                         ))}
                     </tbody>
                 </table>
-            ) : <p>Loading</p>}
+            )}
         </>
     )
 }
