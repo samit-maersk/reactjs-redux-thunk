@@ -24,11 +24,14 @@ export const userSlice = createSlice(({
     }
   },
   reducers: {
-    sort: (state) => {
-        console.log(state.users)
+    ascending: (state, action) => {
+      state.users = [...action.payload].sort((a,b) => a.name.localeCompare(b.name))
+    },
+    decending: (state, action) => {
+      state.users = [...action.payload].sort((a,b) => b.name.localeCompare(a.name))
     }
   },
 }))
 
-export const { sort } = userSlice.actions;
+export const { ascending, decending} = userSlice.actions;
 export default userSlice.reducer;
