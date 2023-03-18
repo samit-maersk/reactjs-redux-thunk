@@ -1,11 +1,11 @@
 import React,{useEffect, useState} from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { getUsers, ascending, decending } from '../redux/user/userSlice'
+import { getUsers, ascending, decending, setAsFav } from '../redux/user/userSlice'
 const Users = () => {
-    const {users, loading} = useSelector((state) => state.users)
+    const {users, loading, favUser} = useSelector((state) => state.users)
     const dispatch = useDispatch()
     const [isSort, setIsSort] = useState(false)
-
+    const [isFav, setisFav] = useState(false)
     useEffect(()=>{
         dispatch(getUsers());
     },[dispatch])
@@ -23,29 +23,39 @@ const Users = () => {
         dispatch(getUsers());
     }
 
+    const handleFav = (id) => {
+        setisFav(!isFav)
+        dispatch(setAsFav(id))
+    }
+
     return (
         <>
             <button onClick={() => handleSorting()}>{isSort ? 'Descending' : 'Ascending'}</button>
             <button onClick={() => refresh()}>Refresh</button>
             {loading ? <p>Loading</p> : (
-                <table>
-                    <thead>
-                        <tr>
-                            <th>id</th>
-                            <th>name</th>
-                            <th>Fav</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {users && users.map((user) => (
-                            <tr key={user.id}>
-                                <td>{user.id}</td>
-                                <td>{user.name}</td>
-                                <td></td>
+                <>
+                    <input type="text"></input>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>id</th>
+                                <th>name</th>
+                                <th>Fav</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {users && users.map((user) => (
+                                <tr key={user.id}>
+                                    <td>{user.id}</td>
+                                    <td>{user.name}</td>
+                                    <td>
+                                        <input type="checkbox" ></input>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </>
             )}
         </>
     )
